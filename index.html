@@ -57,7 +57,6 @@
                   </ul>
                 </section>
 
-                <!-- Nested vertical slides -->
                 <section>
                 <h3>What the heck is graphite?</h3>
                 <p>
@@ -240,10 +239,10 @@ servers = 10.1.2.3, 10.1.2.4:2004, myserver.example.com
                   <h2>Example RRA</h2>
                   <p>Taken from <a href="http://stackoverflow.com/a/15813857">stack overflow</a>, so it has to be right</p>
                   <pre style="box-shadow: none;"><code data-trim contenteditable>
-RRA:AVERAGE:0.5:1:288  \ # 1 day of 5 minute avg</strong>
-RRA:AVERAGE:0.5:3:672  \ # 1 week of 15 minute avg</strong>
-RRA:AVERAGE:0.5:12:744 \ # 1 month of 1 hour avg</strong>
-RRA:AVERAGE:0.5:72:1480  # 1 year of 6 hour avg</strong>
+RRA:AVERAGE:0.5:1:288  \ # 5 minute avg for 1 day</strong>
+RRA:AVERAGE:0.5:3:672  \ # 15 minute avg for 1 week</strong>
+RRA:AVERAGE:0.5:12:744 \ # 1 hour avg for 1 month</strong>
+RRA:AVERAGE:0.5:72:1480  # 6 hour avg for 1 year</strong>
                   </code>
                   </pre>
                   <p style="font-size: 0.5em;"><a href="#/16">storage schema example</a></p>
@@ -252,8 +251,7 @@ RRA:AVERAGE:0.5:72:1480  # 1 year of 6 hour avg</strong>
                     This assumes a step of 300 seconds. Slide just shows "steps" and "rows". This leaves out step"
                   </aside>
                 </section>
-<!-- ####################################################################### -->
-                <section data-transition="linear" data-background="#FFFFFF" data-background-transition="slide">
+                <section data-transition="fade" data-background="#FFFFFF" data-background-transition="fade">
                     <h2>Teh Pretty</h2>
                     <p>
                      Enough time blabbing, time for 12 great graphite tools
@@ -299,7 +297,7 @@ RRA:AVERAGE:0.5:72:1480  # 1 year of 6 hour avg</strong>
                   </aside>
                 </section>
 
-                <section>
+                <section data-transition="linear" data-background="#FFFFFF" data-background-transition="fade">
                   <h3>Full dashboard applications</h3>
                     <p>
                     For those who don't prefer a roll your own approach
