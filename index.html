@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>MEASURE ALL THE THINGS - A graphite presentation</title>
+
+        <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+        <meta name="author" content="Jeff Schroeder">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <div style="float: left; image-border:0; border: 0;"><img src="images/graphite_xmastree.png"></div>
+                    <h2>Twelve days of metrics</h2>
+                    <h3>Graphite for the masses</h3>
+                    <p>
+                    <small>Created by <a href="http://envisionlinux.org/blog">Jeff Schroeder</a> / <a href="https://twitter.com/SEJeff">@SEJeff</a> / <a href="https://github.com/SEJeff">github: SEJeff</a></small>
+                    </p>
+                    <p style="font-size: 0.5em;"><a href="http://envisionlinux.org/graphite-for-the-masses" target="_NEW">http://envisionlinux.org/graphite-for-the-masses</a></p>
+                </section>
+                <section>
+                  <h2>Who Am I?</h2>
+                  <a href="http://digitalprognosis.com/resume.htm" target="_blank" title="Check out my resume"><img src="images/jeff.png"></a>
+                  <ul>
+                    <li>Husband of an awesome woman</li>
+                    <li>Co-maintainer of <a href="https://github.com/graphite-project" target="_NEW">graphite</a> and <a href="https://github.com/saltstack/salt">salt stack</a></li>
+                    <li>Lover of open source, bacon, and good beer</li>
+                    <li>GNOME SysAdmin team and foundation member</li>
+                    <li>Professional Linux superhero for a Chicago financial firm</li>
+                  </ul>
+                </section>
+
+                <!-- Nested vertical slides -->
+                <section>
+                <h3>What the heck is graphite?</h3>
+                <p>
+                  <ol>
+                      <li class="fragment">Eyecandy for devops teams</li>
+                      <li class="fragment">A fantastic visualization tool for time-series metrics</li>
+                      <li class="fragment">A community of metrics and graph <a href="http://obfuscurity.com/" title="Jason Dixon (@obfuscurity)">fanatics</a></li>
+                  </ol>
+                </p>
+                </section>
+                <section data-background-transition="slide" data-background-repeat="no-repeat" data-background="images/metrics3-large.png" data-backgroun-size="contain"></section>
+                <section data-background-transition="fade"  data-background-repeat="no-repeat" data-background="images/metrics1-large.png" data-backgroun-size="contain"></section>
+                <section>
+                    <section>
+                        <h2>What Graphite is <strong>NOT</strong></h2>
+                        <aside class="notes">
+                         <ul>
+                           <li>A replacement for keeping good logs</li>
+                           <li>A replacement for elasticsearch / logstash</li>
+                           <li>A replacement for logstash</li>
+                           <li></li>
+                         </ul>
+                        </aside>
+                    </section>
+                    <section>
+                        <h2>A friggin' unicorn!</h2>
+                        <p class="fragment" style="font-size: 0.8em;">(no unicorns were harmed in the creation of this presentation)</p>
+                        <a href="http://cornify.com" target="_NEW">
+                            <img width="280" height="326" src="images/supercorn.gif" alt="Unicorn">
+                        </a>
+                    </section>
+                </section>
+                <section>
+                    <h2>Basic Architecture</h2>
+                    <ul style="font-size: 0.8em;">
+                        <li>graphite-web - web application for adhoc graphing and REST API</li>
+                        <li>carbon - twisted daemon listening for time-series data and persisting it</li>
+                        <li>whisper - python database library similar to RRD with a few perks</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Graphite Web</h2>
+                    <p>
+                    A composer for adhoc graphing, a dashboard for ops, and a REST API for developers/external tools.
+                    </p>
+                </section>
+                <section>
+                    <h2>Composer</h2>
+                    <p>
+                        Used for creating and manipulating new graphs on the fly
+                    </p>
+                </section>
+                <section data-background-transition="slide" data-background-repeat="no-repeat" data-background="images/graphite_composer.png" data-backgroun-size="contain"></section>
+                <section>
+                    <h2>Dashboard</h2>
+                    <p>
+                        A built-in dashboard creator to add graphs to a big monitoring screen
+                    </p>
+                </section>
+                <section data-background-transition="slide" data-background-repeat="no-repeat" data-background="images/graphite-reporting.png" data-backgroun-size="contain"></section>
+                <section>
+                    <h2>Dashboards are Useful!</h2>
+                    <p style="font-size: 0.8em;">
+                    <a href="http://www.elasticsearch.org/blog/using-elasticsearch-and-logstash-to-serve-billions-of-searchable-events-for-customers/" target="_NEW">Mailgun</a> monitors their elasticsearch infrastructure with graphite.
+                    <img src="images/graphite_elasticsearch_dashboard_for_mailgun.png">
+                    </p>
+                </section>
+                <section>
+                    <h2>JSON API</h2>
+                    <p>
+                    The <a href="http://graphite.readthedocs.org/en/latest/render_api.html" target="_NEW">REST API</a> allows other external tools to use graphite data for <a href="http://giraffe.kenhub.com" target="_NEW" title="Giraffe uses rickshaw.js and is one of the nicer graphite dashboards">creating</a> the <a href="http://thomasvm.github.io/blog/2012/11/19/bling-dashboards-using-graphite-and-dashing/" target="_NEW">pretty</a>
+                    </p>
+                    <ul style="font-size: 0.8em;">
+                      <li><a href="http://obfuscurity.com/2013/05/Graphite-Tip-Counting-Number-of-Metrics-Reported" target="_NEW">sumSeries()</a></li>
+                      <li><a href="http://www.justincarmony.com/blog/2012/06/05/customizing-graphite-charts-for-clearer-results/" target="_NEW">movingAverage()</a> - Smooths out graphs</li>
+                      <li><a href="http://www.jilles.net/perma/2013/08/22/how-to-do-graphite-derivatives-correctly/" target="_NEW">nonNegativeDerivative()</a> - Network counters that might reset to 0</li>
+                      <li><a href="https://graphite.readthedocs.org/en/latest/functions.html#graphite.render.functions.cactiStyle" target="_NEW">cactiStyle()</a> - Auto-adds min/max/avg</li>
+                      <li><a href="https://graphite.readthedocs.org/en/latest/functions.html#graphite.render.functions.maximumAbove" target="_NEW">maximumAbove()</a> - great with averages for errors > N</li>
+                    </ul>
+                </section>
+                <section data-background-transition="slide" data-background-repeat="no-repeat" data-background="images/dashing.png" data-backgroun-size="contain"></section>
+                <section>
+                    <h2>Carbon</h2>
+                    <p>
+                    The caching, relay, and storage layer. <a href="https://github.com/graphite-project/carbon" target="_blank">Carbon</a> is what clients actually send metrics to.
+                    </p>
+                    <aside class="notes">
+                      Mention it is written in twisted and make a bad joke about twisted
+                    </aside>
+                </section>
+                <section>
+                    <h2>Storage Schemas</h2>
+                    <p>
+                    Carbon uses <a href="https://graphite.readthedocs.org/en/latest/config-carbon.html#storage-schemas-conf" target="_NEW">storage schemas</a>
+                    </p>
+                    <pre style="box-shadow: none;"><code data-trim contenteditable>
+[apache_busyWorkers]
+pattern = ^servers\.www.*\.workers\.busyWorkers$
+retentions = 5m:1d,15m:7d,1h:30d,6h:1y
+                    </code></pre>
+                    <p style="font-size: 0.5em;"><a href="#/25">RRA Example</a></p>
+                </section>
+                <section>
+                    <h2>Feeding Carbon</h2>
+                    <img src="images/moar-cat.jpg">
+                </section>
+                <section>
+                  <h2>Minimal carbon client</h2>
+                  <p style="font-size: 0.8em;"><a href="http://graphite.readthedocs.org/en/latest/feeding-carbon.html">Graphite docs on sending metrics</a></p>
+                  <pre style="box-shadow: none; overflow: visible; width: 100%;"><code data-trim contenteditable style="box-shadow: 0 0 15px rgba(0,0,0,.5);">
+#!/bin/bash
+# Basically the best carbon client in the world
+GRAPHITE_SERVER=${GRAPHITE_SERVER:-localhost}
+GRAPHITE_PORT=${GRAPHITE_PORT:-2003}
+
+echo "foo.bar.baz $(($RANDOM % 500)).$(($RANDOM % 5)) $(date +%s)" | \
+    nc "$GRAPHITE_SERVER" "$GRAPHITE_PORT"
+                  </code>
+                  </pre>
+                  <p class="fragment" style="background-color: black;"><span style="color: green;">metric.schema.name</span> <span style="color: yellow;">value_as_float</span> <span style="color: red;">unix_epoch_time</span></p>
+                </section>
+                <section>
+                    <h2>Aggregation</h2>
+                    <p>
+                       The carbon aggregator buffers metrics and performs down-sampling operations. Examples could be things like summing requests per hour and only firing the counter to the cache once per hour. Many people use <a href="https://launchpad.net/txstatsd" title="My personal favorite statsd clone">one</a> <a href="https://github.com/amir/gographite" target="_NEW">of</a> <a href="https://github.com/quasor/statsd" title="Ruby... meh" target="_NEW">the</a> <a href="https://github.com/opscode/estatsd" title="Erlang version from the folks at Opscode" target="_NEW">various</a> <a href="https://github.com/jbuchbinder/statsd-c">forms</a> <a href="https://github.com/mojodna/metricsd" target="_NEW">of</a> <a href="https://github.com/etsy/statsd" title="The original statsd from Etsy" target="_NEW">statsd</a> to do this as well.
+                    </p>
+                    <p class="fragment">
+                    <strong>TL;DNR: Use statsd, it is awesome!</strong>
+                    </p>
+                    <aside class="notes">
+                      Aggregating metrics lessens the I/O load on your caches quite a bit. Issues with the graphite aggregator.
+                    </aside>
+                </section>
+                <section>
+                    <h2>Carbon Relay</h2>
+                    <p>
+                    Regex-based rules or consistent-hashing.
+                    </p>
+                    <div class="fragment">
+                      <p style="font-size: 0.8em;">Example <a href="https://graphite.readthedocs.org/en/latest/config-carbon.html#relay-rules-conf" title="Carbon relay rules are configured in the relay-rules.conf" target="_NEW">relay-rules.conf</a></p>
+                          <pre style="box-shadow: none;"><code data-trim contenteditable>
+[db_servers]
+pattern = ^collectd\..*db.*
+servers = 10.1.2.3, 10.1.2.4:2004, myserver.example.com
+                      </code></pre>
+                    </div>
+                    <aside class="notes">
+                      Describe consistent hashing and a few upsides of it
+                    </aside>
+                </section>
+                <section>
+                    <h2>Whisper</h2>
+                    <p>
+                        Whisper is a python library created essentially to be a better RRD.
+                    </p>
+                </section>
+                <section>
+                    <h2>Better than RRD?</h2>
+                    <p>
+                    The <a href="http://graphite.readthedocs.org/en/latest/whisper.html#differences-between-whisper-and-rrd">internets</a> agrees!
+                    </p>
+                    <img src="images/true-or-trolling.jpg">
+                    <aside class="notes">
+                    </aside>
+                </section>
+                <section>
+                    <h2>RRD</h2>
+                    <p>
+                    In RRD speak, data retention policies are configured via a <span title="Round Robin Archive">RRA</span> using <a href="http://oss.oetiker.ch/rrdtool/tut/rpntutorial.en.html" target="_blank">reverse polish notation</a>.
+                    </p>
+                </section>
+                <section>
+                  <h2>Did Someone Say Polish?</h2>
+                  <p style="size: 0.5em;">
+                    Sorry, not the yummy hot dogs us Chicagoans love!
+                  </p>
+                  <a href="https://www.tastesofchicago.com/category/winter-comfort-bobaks" target="_NEW"><img src="images/polish.jpg"></a>
+                </section>
+                <section data-transition="concave">
+                  <h2>Example RRA</h2>
+                  <p>Taken from <a href="http://stackoverflow.com/a/15813857">stack overflow</a>, so it has to be right</p>
+                  <pre style="box-shadow: none;"><code data-trim contenteditable>
+RRA:AVERAGE:0.5:1:288  \ # 1 day of 5 minute avg</strong>
+RRA:AVERAGE:0.5:3:672  \ # 1 week of 15 minute avg</strong>
+RRA:AVERAGE:0.5:12:744 \ # 1 month of 1 hour avg</strong>
+RRA:AVERAGE:0.5:72:1480  # 1 year of 6 hour avg</strong>
+                  </code>
+                  </pre>
+                  <p style="font-size: 0.5em;"><a href="#/16">storage schema example</a></p>
+                  <h2 class="fragment">WAT?</h2>
+                  <aside class="notes">
+                    This assumes a step of 300 seconds. Slide just shows "steps" and "rows". This leaves out step"
+                  </aside>
+                </section>
+<!-- ####################################################################### -->
+                <section data-transition="linear" data-background="#FFFFFF" data-background-transition="slide">
+                    <h2>Teh Pretty</h2>
+                    <p>
+                     Enough time blabbing, time for 12 great graphite tools
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Graphene</h2>
+                    <p>
+                    <a href="http://jondot.github.io/graphene/" target="_NEW">Graphene</a> is built for tv static dashboards
+                    </p>
+                  <aside class="notes">
+                    framework, some assembly required
+                  </aside>
+                </section>
+
+                <section>
+                    <h2>Giraffe</h2>
+                    <p>
+                    <a href="http://giraffe.kenhub.com/" target="_NEW">Giraffe</a> is great viewing pre-generated realtime dashboards
+                    </p>
+                  <aside class="notes">
+                    framework, some assembly required
+                  </aside>
+                </section>
+
+                <section>
+                    <h2>cubism.js</h2>
+                    <p>
+                    Written by square, <a href="http://square.github.io/cubism/" target="_NEW">cubism</a>, helps build compact and realtime dashboards.
+                    </p>
+                  <aside class="notes">
+                    javascript framework, some assembly required
+                  </aside>
+                </section>
+                <section>
+                    <h2>graphite.js</h2>
+                    <p>
+                    If you love jQuery (I do!), <a href="https://github.com/prestontimmons/graphitejs" target="_NEW">graphite.js</a>, makes it pretty trivial to pull graphs into your existing application
+                    </p>
+                  <aside class="notes">
+                    javascript framework, some assembly required
+                  </aside>
+                </section>
+
+                <section>
+                  <h3>Full dashboard applications</h3>
+                    <p>
+                    For those who don't prefer a roll your own approach
+                    </p>
+                </section>
+                <section>
+                    <h2>Descartes</h2>
+                    <p>
+                    <a href="https://github.com/obfuscurity/descartes" target="_NEW">Descartes</a> is a full featured graphing dashboard with builtin collaboration and native "composer" functionality.
+                  <aside class="notes">
+                    obfuscurity wrote it woop woop
+                  </aside>
+                </section>
+                <section>
+                    <h2>Gdash</h2>
+                    <p style="font-size: 0.8em;">
+                    <a href="https://github.com/ripienaar/gdash" target="_NEW">Gdash</a> uses a simple <a href="https://github.com/ripienaar/graphite-graph-dsl/wiki" target="_NEW">DSL</a> for generating graphs and is easy to get going
+                  <aside class="notes">
+                    Doesn't graph client-side graphs and uses a dsl for graphs that makes creating new dashboards quick
+                  </aside>
+                </section>
+                <section>
+                    <h2>Tasseo</h2>
+                    <p>
+                    <a href="https://github.com/obfuscurity/tasseo" target="_NEW">Tasseo</a> is an alerting dashboard that can change graph colors based on thresholds.
+                </section>
+                <section>
+                    <h2>Tattle</h2>
+                    <p style="font-size: 0.8em;">
+                    <a href="https://github.com/wayfair/Graphite-Tattle" target="_NEW">Tattle</a> is a popular alerting dashboard
+                  <aside class="notes">
+                    Sends alerts via email and allows setting thresholds in the web ui
+                  </aside>
+                </section>
+                <section>
+                    <h2>Orion</h2>
+                    <p style="font-size: 0.8em;">
+                    <a href="https://github.com/gree/Orion" target="_NEW">Orion</a> full featured dashboard application with granular access control over metrics
+                  <aside class="notes">
+                    Oauth access control
+                  </aside>
+                </section>
+                <section>
+                    <h2>Graph Explorer</h2>
+                    <p style="font-size: 0.8em;">
+                    <a href="http://vimeo.github.io/graph-explorer/" target="_NEW">Graph Explorer</a> replacement for the graphite composer with tagging and other cleverness
+                  <aside class="notes">
+                    Vimeo wrote this!
+                  </aside>
+                </section>
+                <section>
+                    <h2>Graphsky</h2>
+                    <p style="font-size: 0.8em;">
+                    <a href="https://github.com/hyves-org/graphsky" target="_NEW">Graphsky</a> is more or less a ganglia replacement dashboard built ontop of graphite
+                  <aside class="notes">
+                    Vimeo wrote this!
+                  </aside>
+                </section>
+                <section>
+                    <h2>Dusk</h2>
+                    <p>
+                    <a href="https://github.com/obfuscurity/dusk" target="_NEW">Dusk</a> a realtime hotspot dashboard
+                  <aside class="notes">
+                    uses cubism, amongst other things and obfuscurity wrote it woop woop
+                  </aside>
+                </section>
+                <section data-background-transition="slide" data-background-repeat="no-repeat" data-background="images/questions.jpg" data-background-size="700px"></section>
+                <section>
+                    <h2>More of teh awesome</h2>
+                    <ul>
+                        <li><a href="http://pivotallabs.com/139-metrics-metrics-everywhere/">Metrics, Metrics, Everywhere!</a></li>
+                        <li><a href="http://www.slideshare.net/mikebrittain/metricsdriven-engineering">Metrics Driven Engineering</a></li>
+                        <li><a href="http://obfuscurity.com/Tags/graphite">Jason Dixon's Amazing Graphite Blog Series</a></li>
+                        <li><a href="https://speakerdeck.com/knoopx/collecting-metrics-with-graphite-and-statsd">Collecting Metrics with Graphite and StatsD</a></li>
+                        <li><a href="http://codeascraft.com/2011/02/15/measure-anything-measure-everything/">Measure Anything, Measure Everything</a></li>
+                        <li><a href="http://www.jedi.be/blog/2012/01/04/monitoring-wonderland-visualization">Monitoring Wonderland Visualization</a></li>
+                        <li><a href="http://bitprophet.org/blog/2013/03/07/graphite/">Clustering Graphite</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h1>THE END</h1>
+                </section>
+
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().transition || 'graphite-prezo', // default/cube/page/concave/zoom/linear/fade/none
+                transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                parallaxBackgroundImage: 'images/snowy_background_small.jpg',
+                parallaxBackgroundSize: '2100px 1000px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
